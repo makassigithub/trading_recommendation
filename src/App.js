@@ -1,24 +1,36 @@
-import logo from './logo.svg';
+import React, {useState} from 'react';
+import StockForm from './components/stockForm';
+import stocksDB from './datasource/db';
+import { dates } from './datasource/db';
+import StockDetailsList from './components/stockDetailsList';
+import { useAppData } from './datasource/appState';
 import './App.css';
 
+
+
 function App() {
-  return (
+  const { dispatch, state} = useAppData();
+
+  console.log(state);
+
+  return  state.isLoading ? <div>Loading...</div> : (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <h2>
+          Stock Market Recommender
+      </h2>
+      <div className='form'>
+        <StockForm 
+          symbols={Object.keys(stocksDB)}
+          timeWindows = {state.timeWindows}
+          updateState={dispatch}
+          currentSymbol={state.currentSymbol}
+        />
+      </div>
+      <StockDetailsList
+        currentSymbol={state.currentSymbol}  
+        updateState={dispatch}
+      />
+      </div>
   );
 }
 
