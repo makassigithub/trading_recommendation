@@ -1,4 +1,5 @@
 import React from 'react';
+import { FORM_ACTIONS } from '../utils/actions';
 
 const SocialMediaControl = props => {
     const { 
@@ -9,13 +10,13 @@ const SocialMediaControl = props => {
 
     return (
         <div style={styles.wrapper}>
-            <span> Social Media Count :{countValue}</span>
+            <span> Social Media Count :{Math.round(countValue)}</span>
             <label>
                 Include in algorithm
                 <input 
                 type="checkbox"
                 checked={useSocilaMedia}
-                onChange={evt=> updateState({type: 'SET_USE_SOCIAL_MEDIA'})}
+                onChange={evt=> updateState({type: FORM_ACTIONS.SET_USE_SOCIAL_MEDIA})}
                 />
             </label>
         </div>
@@ -27,7 +28,7 @@ const styles = {
         display:'flex',
         flexDirection:'column',
         padding: '10px',
-        border: '1px solid grey'
+       // border: '1px solid grey'
     }
 }
 

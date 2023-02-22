@@ -1,23 +1,25 @@
 
 import {  useEffect, useReducer } from 'react';
-//import StockService from './service';
-import stocksDB, { TIME_WINDOWS } from './db';
-
+import Service from './service';
+import { FORM_ACTIONS } from '../utils/actions';
+import {analyseWithFactors, analyseWithPrice} from '../utils/utils';
 
 export function sotckFormReducer(state, action) {
   switch (action.type) {
-    case 'LOAD_SYMBOLS':
+    case FORM_ACTIONS.LOAD_SYMBOLS:
       return { ...state, isLoading: true };
-    case 'SYMBOLS_LOADED':
+    case FORM_ACTIONS.LOAD_SYMBOLS_SUCCESS:
         return { ...state, isLoading: false,
-            stocks: action.stocks, currentSymbol: Object.values(action.stocks)[0] 
+            stocks: action.stocks,
+            currentSymbol: Object.values(action.stocks)[0],
+            timeWindows: action.timeWindows,
         };
-    case 'SET_SYMBOL':
+    case FORM_ACTIONS.SET_SYMBOL:
       return { ...state, currentSymbol: state.stocks[action.value]};
-    case 'SET_TIME_WINDOW':
-      return { ...state, currentTimeWindow: action.value};
-    case 'SET_USE_SOCIAL_MEDIA':
-      return { ...state, useSocilaMedia: !state.useSocilaMedia };
+    case FORM_ACTIONS.SET_TIME_WINDOW:
+      return { ...state, timeWindow: action.value};
+    case FORM_ACTIONS.SET_USE_SOCIAL_MEDIA:
+      return { ...state, useSocilaMedia: !state.useSocilaMedia};
     default:
       break;
   }
@@ -28,17 +30,22 @@ export const useAppData = () => {
   const initialState = {
     isLoading: true,
     stocks: {},
-    timeWindows:TIME_WINDOWS
+    timeWindow:10
   }
 
   const [state, dispatch] = useReducer(sotckFormReducer, initialState);
 
   useEffect(() => {
     (async () => {
+        const [stocks,timeWindows] = await Promise.all([Service.getStocks(),Service.getTimeWindows()]);
+        const stockWithActions = await analyseWithPrice(stocks);
+        //const stockWithActions = await analyseWithFactors(stocks,state.timeWindow,'price','socialMediaCount');
+
       try {
         dispatch({
-          type: 'SYMBOLS_LOADED',
-          stocks: stocksDB ,
+          type: FORM_ACTIONS.LOAD_SYMBOLS_SUCCESS,
+          stocks:stockWithActions,
+          timeWindows
         });
       } catch (error) {}
     })();

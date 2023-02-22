@@ -12,7 +12,11 @@ const SelectBox = ({items, updateState, type }) => {
     <div style={styles.wrapper}>
        <select onChange={setSelectedItem}>
         {
-            items.map(item => <option value={item} key={item}>{item}</option>)
+            items.map(item => 
+            <option
+              value={item} key={item}>
+                {type === 'SET_SYMBOL' ? item : `${item} DAYS`}
+            </option>)
         }
     </select>
     </div>
@@ -21,7 +25,6 @@ const SelectBox = ({items, updateState, type }) => {
 
 const styles = {
   wrapper: {
-   // borderColor: 'grey',
     padding: '5px'
   }
 }
