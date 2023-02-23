@@ -1,5 +1,5 @@
-body{ 
-  overflow:hidden;
+body {
+  overflow: hidden;
 }
 .App {
   font-family: sans-serif;
@@ -16,7 +16,6 @@ body{
   align-items: center;
   border: 1px solid greenyellow;
   width: 80%;
-
 }
 
 caption {
@@ -28,7 +27,6 @@ caption {
   padding: 10px;
   max-height: 700px;
 }
-
 
 .form {
   padding: 50px;
@@ -44,11 +42,10 @@ caption {
   display: block;
   width: 100%;
   overflow: auto;
-  max-height: 500px;
+  max-height: 400px;
 }
 .fixed_header thead tr {
   display: block;
-  
 }
 .fixed_header thead {
   background: black;
@@ -61,13 +58,11 @@ caption {
   width: 200px;
 }
 table tbody tr:nth-child(odd) {
-	background-color: #ffffff;
+  background-color: #ffffff;
 }
 
 select {
- border:none;
- margin-top: 15px;
- padding: 5px 15px;
+  border: none;
+  margin-top: 15px;
+  padding: 5px 15px;
 }
-
-
