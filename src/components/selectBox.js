@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from "react";
+import { FORM_ACTIONS } from "../utils/actions";
 
 const SelectBox = ({ items, updateState, type }) => {
   const setSelectedItem = (evt) => {
-    console.log(evt.target.value);
     updateState({
       type,
       value: evt.target.value,
@@ -14,7 +14,7 @@ const SelectBox = ({ items, updateState, type }) => {
       <select onChange={setSelectedItem}>
         {items.map((item) => (
           <option value={item} key={item}>
-            {type === "SET_SYMBOL" ? item : `${item} DAYS`}
+            {type === FORM_ACTIONS.SET_TIME_WINDOW ? `${item} DAYS` : item}
           </option>
         ))}
       </select>

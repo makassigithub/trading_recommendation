@@ -17,6 +17,8 @@ export function sotckFormReducer(state, action) {
       };
     case FORM_ACTIONS.SET_SYMBOL:
       return { ...state, currentSymbol: state.stocks[action.value] };
+    case FORM_ACTIONS.LOAD_SYMBOLS_FAIL:
+      return { ...state, stocks: null };
     case FORM_ACTIONS.SET_TIME_WINDOW:
       return { ...state, timeWindow: action.value };
     case FORM_ACTIONS.SET_USE_SOCIAL_MEDIA:
@@ -37,25 +39,29 @@ export const useAppData = () => {
 
   useEffect(() => {
     (async () => {
-      const [stocks, timeWindows] = await Promise.all([
-        Service.getStocks(),
-        Service.getTimeWindows(),
-      ]);
-      const stockWithActions = await analyseWithFactors(
-        stocks,
-        state.timeWindow,
-        "price",
-        "socialMediaCount"
-      );
-
       try {
+        const [stocks, timeWindows] = await Promise.all([
+          Service.getStocks(),
+          Service.getTimeWindows(),
+        ]);
+        const stockWithActions = await analyseWithFactors(
+          stocks,
+          state.timeWindow,
+          "price",
+          "socialMediaCount"
+        );
+
         dispatch({
           type: FORM_ACTIONS.LOAD_SYMBOLS_SUCCESS,
           stocks: stockWithActions,
           timeWindows,
         });
-        // eslint-disable-next-line no-empty
-      } catch (error) {}
+      } catch (error) {
+        dispatch({
+          type: FORM_ACTIONS.LOAD_SYMBOLS_FAIL,
+          stocks: null,
+        });
+      }
     })();
   }, []);
 
