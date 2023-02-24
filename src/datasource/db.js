@@ -22,9 +22,9 @@ const fillRecords = (fn) => {
 };
 
 export const TIME_WINDOWS = [10, 25, 50, 75, 100, 200];
+export const SYMBOL_NAMES = ["Facebook", "Apple", "Google", "Microsoft"];
 
-export const symbols = ["Facebook", "Apple", "Google", "Microsoft"];
-const stocksDB = symbols.reduce((acc, curr) => {
+const stocksDB = SYMBOL_NAMES.reduce((acc, curr) => {
   acc[curr.toUpperCase()] = {
     name: curr,
     records: fillRecords(generateDays),
